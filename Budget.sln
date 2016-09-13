@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Budget", "Budget\Budget.csproj", "{00C9D14A-C6E5-49C3-8BF1-5B2451EB8CF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetUI", "BudgetUI\BudgetUI.csproj", "{8A922DBB-6C65-4AAF-9F34-59B11FD1BA09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBudget", "TestBudget\TestBudget.csproj", "{971D32BD-B399-4D9A-A88A-968B2E2DF37C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00C9D14A-C6E5-49C3-8BF1-5B2451EB8CF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C9D14A-C6E5-49C3-8BF1-5B2451EB8CF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C9D14A-C6E5-49C3-8BF1-5B2451EB8CF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C9D14A-C6E5-49C3-8BF1-5B2451EB8CF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A922DBB-6C65-4AAF-9F34-59B11FD1BA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A922DBB-6C65-4AAF-9F34-59B11FD1BA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A922DBB-6C65-4AAF-9F34-59B11FD1BA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A922DBB-6C65-4AAF-9F34-59B11FD1BA09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971D32BD-B399-4D9A-A88A-968B2E2DF37C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971D32BD-B399-4D9A-A88A-968B2E2DF37C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971D32BD-B399-4D9A-A88A-968B2E2DF37C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971D32BD-B399-4D9A-A88A-968B2E2DF37C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
