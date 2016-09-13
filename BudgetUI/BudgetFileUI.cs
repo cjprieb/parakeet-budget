@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Budget;
 using Budget.Models;
+using System.Linq;
 
 namespace BudgetUI
 {
@@ -37,12 +34,13 @@ namespace BudgetUI
             _paycheckPeriodBudget = _budgetFile.ParseFile();
 
             SetupColumns();
-            _budgetDataTable = ConvertToDataTable(_paycheckPeriodBudget.LineItems);
-            dataGridView.DataSource = _budgetDataTable;
+            RefreshDataTable(_paycheckPeriodBudget.LineItems);
         }
 
         private void SetupColumns()
         {
+            //To rotate columns 90deg: http://our.componentone.com/groups/topic/rotate-text-vertical-in-datagrid-column-headers/
+
             // 
             // dateColumn
             // 
@@ -76,7 +74,7 @@ namespace BudgetUI
             totalAmountColumn.Frozen = true;
             totalAmountColumn.HeaderText = "Total";
             totalAmountColumn.Name = "totalAmountColumn";
-            totalAmountColumn.Width = 60;
+            totalAmountColumn.Width = 70;
             totalAmountColumn.ReadOnly = true;
             dataGridView.Columns.Add(totalAmountColumn);
 
@@ -90,6 +88,16 @@ namespace BudgetUI
             readOnlyColumn.ReadOnly = true;
             dataGridView.Columns.Add(readOnlyColumn);
 
+            // 
+            // guidColumn
+            // 
+            var guidColumn = new DataGridViewTextBoxColumn();
+            guidColumn.DataPropertyName = "Guid";
+            guidColumn.Name = "guidColumn";
+            guidColumn.Visible = false;
+            guidColumn.ReadOnly = true;
+            dataGridView.Columns.Add(guidColumn);
+
             foreach ( var category in _paycheckPeriodBudget.CategoryOrder )
             {
                 // 
@@ -100,13 +108,13 @@ namespace BudgetUI
                 categoryColumn.DefaultCellStyle.Format = "c";
                 categoryColumn.Frozen = false;
                 categoryColumn.HeaderText = category;
-                categoryColumn.Name = "categoryColumn";
+                categoryColumn.Name = category + "Column";
                 categoryColumn.Width = category == "nowork" ? 75 : 60;
                 dataGridView.Columns.Add(categoryColumn);
             }
         }
 
-        private DataTable ConvertToDataTable(List<BudgetLine> lineItems)
+        private void RefreshDataTable(List<BudgetLine> lineItems)
         {
             DataTable table = new DataTable();
 
@@ -118,17 +126,20 @@ namespace BudgetUI
             }
             table.Columns.Add("TotalAmount", typeof(decimal));
             table.Columns.Add("ReadOnly", typeof(bool));
+            table.Columns.Add("Guid", typeof(Guid));
 
             AddRowToGrid(table, _paycheckPeriodBudget.StartingBudget);
             foreach ( var item in _paycheckPeriodBudget.LineItems )
             {
                 AddRowToGrid(table, item);
             }
-            AddRowToGrid(table, _paycheckPeriodBudget.TotalBudget);
+            AddRowToGrid(table, _paycheckPeriodBudget.PayPeriodIncome);
+            AddRowToGrid(table, _paycheckPeriodBudget.PayPeriodExpenses);
             AddRowToGrid(table, _paycheckPeriodBudget.PaycheckBudget);
             AddRowToGrid(table, _paycheckPeriodBudget.EndingBudget);
 
-            return table;
+            _budgetDataTable = table;
+            dataGridView.DataSource = table;
         }
 
         private void AddRowToGrid(DataTable table, BudgetLine lineItem)
@@ -145,30 +156,43 @@ namespace BudgetUI
             }
             row["TotalAmount"] = lineItem.TotalAmount;
             row["ReadOnly"] = lineItem.ReadOnly;
+            row["Guid"] = lineItem.Guid;
         }
 
         private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (_budgetDataTable.Rows.Count > e.RowIndex)
+            DataGridView dataGrid = sender as DataGridView;
+            if (dataGrid != null && dataGrid.Rows.Count > e.RowIndex)
             {
-                var column = _budgetDataTable.Columns[e.ColumnIndex];
-                var row = _budgetDataTable.Rows[e.RowIndex];
-                var value = row[column.ColumnName];
-                var lineItem = _paycheckPeriodBudget.LineItems[e.RowIndex];
+                var column = dataGrid.Columns[e.ColumnIndex];
+                var row = dataGrid.Rows[e.RowIndex];
+                var value = row.Cells[column.Name].Value;
+                var guid = (Guid)row.Cells["guidColumn"].Value;
 
-                switch (column.ColumnName)
+                var lineItem = _paycheckPeriodBudget.LineItems.FirstOrDefault(item => item.Guid == guid);
+
+                if (lineItem != null)
                 {
-                    case "Date":
-                        lineItem.Date = (DateTime)value;
-                        break;
+                    switch (column.DataPropertyName)
+                    {
+                        case "Date":
+                            lineItem.Date = (DateTime)value;
+                            break;
 
-                    case "Description":
-                        lineItem.Description = value as string;
-                        break;
+                        case "Description":
+                            lineItem.Description = value as string;
+                            break;
 
-                    default: //must be a category column
-                        lineItem.CategoryAmount[column.ColumnName] = (decimal)value;
-                        break;
+                        default: //must be a category column
+                            lineItem.CategoryAmount[column.DataPropertyName] = (decimal)value;
+                            break;
+                    }
+
+                    RefreshDataTable(_paycheckPeriodBudget.LineItems);
+                }
+                else
+                {
+                    MessageBox.Show($"Error! Unable to find matching line item for row {e.RowIndex}.");
                 }
             }
         }

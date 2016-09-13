@@ -192,7 +192,5 @@ namespace BudgetUI
             }
         }
         #endregion Private methods...
-
-      
     }
 }

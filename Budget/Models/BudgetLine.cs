@@ -15,6 +15,8 @@ namespace Budget.Models
 
         public string Description { get; set; }
 
+        public Guid Guid { get; private set; }
+
         public decimal TotalAmount
         {
             get
@@ -24,5 +26,10 @@ namespace Budget.Models
         }
 
         public bool ReadOnly { get; set; }
+
+        public BudgetLine()
+        {
+            Guid = Guid.NewGuid();
+        }
     }
 }

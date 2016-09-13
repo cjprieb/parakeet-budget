@@ -47,6 +47,7 @@
     <Compile Include="Models\BudgetLine.cs" />
     <Compile Include="Models\BudgetLineDataTable.cs" />
     <Compile Include="Models\BudgetLineRowCollection.cs" />
+    <Compile Include="Models\FilterType.cs" />
     <Compile Include="PaycheckPeriodBudget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

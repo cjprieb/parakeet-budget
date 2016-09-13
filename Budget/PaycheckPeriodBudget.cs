@@ -11,6 +11,12 @@ namespace Budget
     public class PaycheckPeriodBudget
     {
         #region Private fields
+        private BudgetLine _EndingBudget = null;
+        private BudgetLine _PaycheckBudget = null;
+        private BudgetLine _PayPeriodExpenses = null;
+        private BudgetLine _PayPeriodIncome = null;
+        private BudgetLine _StartingBudget = null;
+        private BudgetLine _TotalBudget = null;
         private Dictionary<string, BudgetCategory> _Categories = null;
         private List<string> _CategoryOrder = null;
         private List<BudgetLine> _LineItems = null;
@@ -18,34 +24,35 @@ namespace Budget
         #endregion
 
         #region Public properties
-        public List<BudgetLine> AllItems
-        {
-            get
-            {
-                var list = new List<BudgetLine>();
-                list.Add(StartingBudget);
-                list.AddRange(_LineItems);
-                var total = TotalBudget;
-                var budget = PaycheckBudget;
-                list.Add(total);
-                list.Add(budget);
-                var nextPaycheck = new BudgetLine()
-                {
-                    Date = total.Date,
-                    Description = "NEXT PAYCHECK BALANCE",
-                    CategoryAmount = new Dictionary<string, decimal>()
-                };
-                foreach ( var category in CategoryOrder )
-                {
-                    nextPaycheck.CategoryAmount[category] = total.CategoryAmount[category] + budget.CategoryAmount[category];
-                }
-                list.Add(nextPaycheck);
+        //public List<BudgetLine> AllItems
+        //{
+        //    get
+        //    {
+        //        var list = new List<BudgetLine>();
+        //        list.Add(StartingBudget);
+        //        list.AddRange(_LineItems);
+        //        var total = TotalBudget;
+        //        var budget = PaycheckBudget;
+        //        list.Add(total);
+        //        list.Add(budget);
+        //        var nextPaycheck = new BudgetLine()
+        //        {
+        //            Date = total.Date,
+        //            Description = "NEXT PAYCHECK BALANCE",
+        //            CategoryAmount = new Dictionary<string, decimal>()
+        //        };
+        //        foreach ( var category in CategoryOrder )
+        //        {
+        //            nextPaycheck.CategoryAmount[category] = total.CategoryAmount[category] + budget.CategoryAmount[category];
+        //        }
+        //        list.Add(nextPaycheck);
 
-                return list;
-            }
-        }
+        //        return list;
+        //    }
+        //}
 
         public decimal BalanceTotal { get; set; }
+
         public Dictionary<string, BudgetCategory> Categories
         {
             get
@@ -74,19 +81,23 @@ namespace Budget
         {
             get
             {
-                var line = new BudgetLine()
+                if (_EndingBudget == null)
                 {
-                    Date = LineItems.Max(item => item.Date),
-                    Description = "NEXT PAYCHECK BALANCE",
-                    CategoryAmount = new Dictionary<string, decimal>(),
-                    ReadOnly = true
-                };
+                    _EndingBudget = new BudgetLine()
+                    {
+                        Date = LineItems.Max(item => item.Date),
+                        Description = "NEXT PAYCHECK BALANCE",
+                        CategoryAmount = new Dictionary<string, decimal>(),
+                        ReadOnly = true
+                    };
+                }
+
                 foreach (var categoryName in CategoryOrder)
                 {
                     var category = Categories[categoryName];
-                    line.CategoryAmount[categoryName] = category.StartingBalance + category.GetSumOfCategoryTransactions(LineItems) + category.PaycheckBudget;
+                    _EndingBudget.CategoryAmount[categoryName] = category.StartingBalance + category.GetSumOfCategoryTransactions(LineItems) + category.PaycheckBudget;
                 }
-                return line;
+                return _EndingBudget;
             }
         }
 
@@ -106,19 +117,70 @@ namespace Budget
         {
             get
             {
-                var line = new BudgetLine()
+                if (_PaycheckBudget == null)
                 {
-                    Date = LineItems.Max(item => item.Date),
-                    Description = "PAYCHECK BUDGET",
-                    CategoryAmount = new Dictionary<string, decimal>(),
-                    ReadOnly = false
-                };
+                    _PaycheckBudget = new BudgetLine()
+                    {
+                        Date = LineItems.Max(item => item.Date),
+                        Description = "PAYCHECK BUDGET",
+                        CategoryAmount = new Dictionary<string, decimal>(),
+                        ReadOnly = false
+                    };
+                }
 
                 foreach (var category in CategoryOrder)
                 {
-                    line.CategoryAmount[category] = Categories[category].PaycheckBudget;
+                    _PaycheckBudget.CategoryAmount[category] = Categories[category].PaycheckBudget;
                 }
-                return line;
+                return _PaycheckBudget;
+            }
+        }
+
+        public BudgetLine PayPeriodExpenses
+        {
+            get
+            {
+                if (_PayPeriodExpenses == null)
+                {
+                    _PayPeriodExpenses = new BudgetLine()
+                    {
+                        Date = LineItems.Max(item => item.Date),
+                        Description = "PAY PERIOD EXPENSES",
+                        CategoryAmount = new Dictionary<string, decimal>(),
+                        ReadOnly = true
+                    };
+                }
+
+                foreach (var categoryName in CategoryOrder)
+                {
+                    var category = Categories[categoryName];
+                    _PayPeriodExpenses.CategoryAmount[categoryName] = category.GetSumOfCategoryTransactions(LineItems, FilterType.Expense);
+                }
+                return _PayPeriodExpenses;
+            }
+        }
+
+        public BudgetLine PayPeriodIncome
+        {
+            get
+            {
+                if (_PayPeriodIncome == null)
+                {
+                    _PayPeriodIncome = new BudgetLine()
+                    {
+                        Date = LineItems.Max(item => item.Date),
+                        Description = "PAY PERIOD CREDITS",
+                        CategoryAmount = new Dictionary<string, decimal>(),
+                        ReadOnly = true
+                    };
+                }
+
+                foreach (var categoryName in CategoryOrder)
+                {
+                    var category = Categories[categoryName];
+                    _PayPeriodIncome.CategoryAmount[categoryName] = category.GetSumOfCategoryTransactions(LineItems, FilterType.Income);
+                }
+                return _PayPeriodIncome;
             }
         }
 
@@ -142,18 +204,22 @@ namespace Budget
         {
             get
             {
-                var line = new BudgetLine()
+                if (_StartingBudget == null)
                 {
-                    Date = StartingDate,
-                    Description = "BUDGET START",
-                    CategoryAmount = new Dictionary<string, decimal>(),
-                    ReadOnly = true
-                };
+                    _StartingBudget = new BudgetLine()
+                    {
+                        Date = StartingDate,
+                        Description = "BUDGET START",
+                        CategoryAmount = new Dictionary<string, decimal>(),
+                        ReadOnly = true
+                    };
+                }
+
                 foreach ( var category in CategoryOrder )
                 {
-                    line.CategoryAmount[category] = Categories[category].StartingBalance;
+                    _StartingBudget.CategoryAmount[category] = Categories[category].StartingBalance;
                 }
-                return line;
+                return _StartingBudget;
             }
         }
 
@@ -161,20 +227,23 @@ namespace Budget
         {
             get
             {
-                var line = new BudgetLine()
+                if (_TotalBudget == null)
                 {
-                    Date = LineItems.Max(item => item.Date),
-                    Description = "TOTAL",
-                    CategoryAmount = new Dictionary<string, decimal>(),
-                    ReadOnly = true
-                };
+                    _TotalBudget = new BudgetLine()
+                    {
+                        Date = LineItems.Max(item => item.Date),
+                        Description = "TOTAL",
+                        CategoryAmount = new Dictionary<string, decimal>(),
+                        ReadOnly = true
+                    };
+                }
 
                 foreach (var categoryName in CategoryOrder)
                 {
                     var category = Categories[categoryName];
-                    line.CategoryAmount[categoryName] = category.StartingBalance + category.GetSumOfCategoryTransactions(LineItems);
+                    _TotalBudget.CategoryAmount[categoryName] = category.StartingBalance + category.GetSumOfCategoryTransactions(LineItems);
                 }
-                return line;
+                return _TotalBudget;
             }
         }
         #endregion
