@@ -274,18 +274,38 @@ namespace Budget
         {
             var budget = new PaycheckPeriodBudget(newStartDate);
             budget.PayPeriodTotal = PayPeriodTotal;
-            budget.BalanceTotal = Math.Round(budget.GetEndingBalance());
+            budget.BalanceTotal = Math.Round(GetEndingBalance());
             foreach (var categoryName in CategoryOrder)
             {
-                var category = Categories[categoryName];
-                var endingBalance = category.GetEndingBalance(LineItems);
-                budget.Categories.Add(categoryName, new BudgetCategory()
+                BudgetCategory category;
+                bool isExistingCategory = true;
+                if (Categories.ContainsKey(categoryName))
                 {
-                    Name = categoryName,
-                    PaycheckBudget = category.PaycheckBudget,
-                    StartingDate = newStartDate,
-                    StartingBalance = Math.Round(endingBalance)
-                });
+                    category = Categories[categoryName];
+                }
+                else
+                {
+                    category = new BudgetCategory()
+                    {
+                        Name = categoryName,
+                        StartingDate = newStartDate
+                    };
+                    isExistingCategory = false;
+                }
+
+                decimal endingBalance = category.GetEndingBalance(LineItems) + category.PaycheckBudget;
+
+                if (endingBalance != 0 || isExistingCategory)
+                {
+                    budget.Categories.Add(categoryName, new BudgetCategory()
+                    {
+                        Name = categoryName,
+                        PaycheckBudget = category.PaycheckBudget,
+                        StartingDate = newStartDate,
+                        StartingBalance = Math.Round(endingBalance)
+                    });
+                    budget.CategoryOrder.Add(categoryName);
+                }
             }
 
             return budget;

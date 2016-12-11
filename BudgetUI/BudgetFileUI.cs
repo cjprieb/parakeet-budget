@@ -12,8 +12,9 @@ namespace BudgetUI
     public partial class BudgetFileUI : UserControl
     {
         private PaycheckPeriodBudget _paycheckPeriodBudget;
-        private BudgetFile _budgetFile;
+        private BudgetTextParser _budgetFile;
         private DataTable _budgetDataTable;
+        private string _selectedFile;
 
         public BudgetFileUI()
         {
@@ -22,7 +23,8 @@ namespace BudgetUI
 
         public BudgetFileUI(string selectedFile)
         {
-            _budgetFile = new BudgetFile(selectedFile);
+            _selectedFile = selectedFile;
+            _budgetFile = new BudgetTextParser();
 
             InitializeComponent();
             Initialize();
@@ -31,7 +33,7 @@ namespace BudgetUI
         private void Initialize()
         {
             //TODO: do on async
-            _paycheckPeriodBudget = _budgetFile.ParseFile();
+            _paycheckPeriodBudget = _budgetFile.ParseFile(_selectedFile);
 
             SetupColumns();
             RefreshDataTable(_paycheckPeriodBudget.LineItems);

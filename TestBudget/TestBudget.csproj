@@ -50,10 +50,17 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccountCsvParserUnitTest.cs" />
     <Compile Include="BudgetFileUnitTest.cs" />
+    <Compile Include="Common\ConsoleExtensionsTests.cs" />
+    <Compile Include="PayDateCalculatorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BudgetConsole\BudgetConsole.csproj">
+      <Project>{53D38CF7-0BA9-4DC1-8012-4CF16C153214}</Project>
+      <Name>BudgetConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Budget\Budget.csproj">
       <Project>{00c9d14a-c6e5-49c3-8bf1-5b2451eb8cf4}</Project>
       <Name>Budget</Name>

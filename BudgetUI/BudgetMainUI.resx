@@ -127,7 +127,7 @@
   <data name="toolStripButtonSaveFile.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABWSURBVDhPY6AK+Pbt238S8PsvX74YQLVCAEjCyckJjj+8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABWSURBVDhPY6AK+Pbt238S8PsvX74YQLVCAEjCyckJjj+8
         /wjHyGIguq2tDdMQUgwAYZghUO2kGwDCID1Q7fgNQMbIamhrADF41IBBaQA5GKqdEsDAAADtDPd9n5qK
         lQAAAABJRU5ErkJggg==
 </value>
@@ -135,7 +135,7 @@
   <data name="toolStripButtonOpenFile.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADASURBVDhPYyAEvnz5YvDt27f3QPwfG4Yqww5gmtva2v47
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAADASURBVDhPYyAEvnz5YvDt27f3QPwfG4Yqww5gmtva2v47
         OTlhYBQDkE1FxiDNzc0t/z+8/4iCsRqAbgMII2uGieE1AKaYEKaeASAChsk2AMQhFmMz4Hx+fj6GQlz4
         6JGjqAZ8/fq1Yfny5RgKceG+vn5UA0CJ5cqVKxgKceHkpGRUA6Ax8D4yMhJDMS586+ZtMA03AOiN+biS
         Kza8ft16MA034Pv37wn79u3DUEgIww14//69AIhDDgYbQD5gYAAAZX9QculWUG8AAAAASUVORK5CYII=
@@ -144,7 +144,7 @@
   <data name="toolStripButtonPreviousPaycheckPeriod.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABeSURBVDhPYxim4OvXr/O/ffv2HxsGyUGVYQcwzTET9v1n
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABeSURBVDhPYxim4OvXr/O/ffv2HxsGyUGVYQcwzTET9v1n
         CJ4DxiD2wGrGhaFasWsmhKlrAAhgMyRn1mEUJ6NjqFYEIBAO/VBl+AE+Q0ByUGX4AcwQbJhoQ4YKYGAA
         ALMhNijYvkl1AAAAAElFTkSuQmCC
 </value>
@@ -152,7 +152,7 @@
   <data name="toolStripButtonRecalculatePaycheckPeriod.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABoSURBVDhPY0AGX758Mfj27dt7IP6PB78HqYNqQQUgyba2
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABoSURBVDhPY0AGX758Mfj27dt7IP6PB78HqYNqQQUgyba2
         tv9OTk44MUgepA6qBRWAbAAp+vD+I04Mkgepg2pBBcgGwGxExvQ1ABcm2gB89KgLyHQByQbgo8lyAQwT
         MoCyzER6dmZgAABuvRzFLDF75wAAAABJRU5ErkJggg==
 </value>
@@ -160,7 +160,7 @@
   <data name="toolStripButtonNextPaycheckPeriod.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABOSURBVDhPYxhm4OvXr/O/ffv2HxsGyUGV4QcwQ2Im7PvP
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABOSURBVDhPYxhm4OvXr/O/ffv2HxsGyUGV4QcwQ2Im7PvP
         EDwHjEFs2hoCksCFiTIEJAhTRAhjNYQqBuDCRHkBHYAUDKxmbJig5qEKGBgAvvE2Frk+kKAAAAAASUVO
         RK5CYII=
 </value>
@@ -168,7 +168,7 @@
   <data name="toolStripButtonEditCategories.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABNSURBVDhPY/j27dt/SjDYACcnJ7IwigEwE4nFWA2AmUwI
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABNSURBVDhPY/j27dt/SjDYACcnJ7IwigEwE4nFWA2AmUwI
         D3IDPrz/CMb42LQ1gBiM1wBctiKzaWsAMRinAaRgDAPIwXADKMEMlAEGBgDRwKyvpb02rwAAAABJRU5E
         rkJggg==
 </value>

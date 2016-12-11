@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Budget.Models
 {
@@ -11,11 +8,12 @@ namespace Budget.Models
         public static decimal GetSumOfCategoryTransactions(this BudgetCategory category, List<BudgetLine> lineItems, FilterType type = FilterType.All)
         {
             return lineItems
-                .Where(item => {
+                .Where(item =>
+                {
                     bool include = item.CategoryAmount.ContainsKey(category.Name);
-                    if ( include )
+                    if (include)
                     {
-                        switch(type)
+                        switch (type)
                         {
                             case FilterType.Expense:
                                 include = item.CategoryAmount[category.Name] < 0;
@@ -32,7 +30,7 @@ namespace Budget.Models
                         }
                     }
                     return include;
-                 })
+                })
                 .Sum(item => item.CategoryAmount[category.Name]);
         }
 

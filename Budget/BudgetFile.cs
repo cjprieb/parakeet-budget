@@ -1,39 +1,33 @@
-﻿using Budget.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Budget.Models;
 
 namespace Budget
 {
-    public class BudgetFile
+    public class BudgetTextParser
     {
         private static Regex _FileDatePattern = new Regex(@"(\d{4}) (\d{2}) (\d{2})");
         private static Regex _SettingPattern = new Regex(@"#(\w+)=(.+)");
-        private static Regex _CategoryPattern = new Regex(@"#category=(\w+)\|(\d+)\|(\d+)");
-        private static Regex _BudgetLinePattern = new Regex(@"(\d+)/(\d+)\t(\w+)\t([^\t]+)\t(\+?)\$([\d\.\-]+)");
+        private static Regex _CategoryPattern = new Regex(@"#category=(\w+)\|(\d+)\|([\-\d]+)");
+        private static Regex _BudgetLinePattern = new Regex(@"(\d+)/(\d+)\t([\w\?]+)\t([^\t]+)\t(\+?)\$?([\d\.\-]+)");
 
-        private string _filePath = null;
+        //private string _filePath = null;
+        private List<string> _categoryFieldNamesForCsv = new List<string>();
+        private int _fieldsAdded = 0;
 
-        public BudgetFile(string filePath)
+        #region Public methods
+        public PaycheckPeriodBudget ParseFile(string filePath)
         {
             if (filePath == null)
             {
                 throw new NullReferenceException("filePath cannot be null");
             }
-            _filePath = filePath;
-        }
-
-        #region Public methods
-        public PaycheckPeriodBudget ParseFile()
-        {            
-            var FileDateMatch = _FileDatePattern.Match(_filePath);
+            var FileDateMatch = _FileDatePattern.Match(filePath);
             if ( !FileDateMatch.Success )
             {
-                throw new ArgumentException($"'{_filePath}' must contain a date in the format 'yyyy mm dd'");
+                throw new ArgumentException($"'{filePath}' must contain a date in the format 'yyyy MM dd'");
             }
 
             var Year = int.Parse(FileDateMatch.Groups[1].Value);
@@ -45,7 +39,7 @@ namespace Budget
             var PreviousMonth = 0;
             var CurrentLine = "";
             BudgetLine CurrentBudgetLine = null;
-            foreach ( var line in File.ReadAllLines(_filePath) )
+            foreach ( var line in File.ReadAllLines(filePath) )
             {
                 CurrentLine = line;
                 LineCount++;
@@ -91,7 +85,7 @@ namespace Budget
                         }
                         catch (FormatException ex)
                         {
-                            throw new BudgetParseException($"Invalid format in {_filePath}: '{line}'", LineCount, ex);
+                            throw new BudgetParseException($"Invalid format in {filePath}: '{line}'", LineCount, ex);
                         }
                     }
                     else
@@ -126,7 +120,7 @@ namespace Budget
 
                         if (!decimal.TryParse(AmountString, out Amount))
                         {
-                            var message = $"Amount for { Description } in {_filePath} must be a valid decimal. [{ AmountString }] could not be parsed.";
+                            var message = $"Amount for { Description } in {filePath} must be a valid decimal. [{ AmountString }] could not be parsed.";
                             throw new BudgetParseException(message, LineCount);
                         }
                         Amount = (isPositive ? 1 : -1) * Amount;
@@ -149,22 +143,29 @@ namespace Budget
                     }
                     else if ( !string.IsNullOrEmpty(line) ) 
                     {
-                        throw new BudgetParseException($"Invalid line in {_filePath}: '{line}'", LineCount);
+                        throw new BudgetParseException($"Invalid line in {filePath}: '{line}'", LineCount);
                     }
                 }
+            }
+            if ( !Budget.CategoryOrder.Contains("??") )
+            {
+                Budget.CategoryOrder.Add("??");
             }
             return Budget;
         }
 
-        public void WriteToFile(PaycheckPeriodBudget budget, string filePath = null)
+        public void WriteToFile(PaycheckPeriodBudget budget, string filePath)
         {
-            using (StreamWriter writer = new StreamWriter(filePath ?? _filePath, false))
+            using (StreamWriter writer = new StreamWriter(filePath, false))
             {
                 writer.WriteLine($"#category=all|{budget.PayPeriodTotal}|{budget.BalanceTotal}");
                 foreach ( var categoryName in budget.CategoryOrder )
                 {
-                    var category = budget.Categories[categoryName];
-                    writer.WriteLine($"#category={categoryName}|{category.PaycheckBudget}|{category.StartingBalance}");
+                    if (budget.Categories.ContainsKey(categoryName))
+                    {
+                        var category = budget.Categories[categoryName];
+                        writer.WriteLine($"#category={categoryName}|{category.PaycheckBudget}|{category.StartingBalance}");
+                    }
                 }
 
                 foreach ( var setting in budget.Settings )
@@ -184,11 +185,166 @@ namespace Budget
                 }
             }
         }
-
-        public void WriteToCsvFile(PaycheckPeriodBudget budget)
+        
+        public void WriteToCsvFile(PaycheckPeriodBudget budget, string filePath, bool append)
         {
-            throw new NotImplementedException();
+            using (StreamWriter writer = new StreamWriter(filePath, append))
+            {
+                List<string> values = new List<string>();
+                if (!append)
+                {
+                    _fieldsAdded = 0;
+                    _categoryFieldNamesForCsv.Clear();
+                    var fieldNames = new List<string>();
+                    fieldNames.Add("Date");
+                    fieldNames.Add("Category");
+                    fieldNames.Add("Description");
+                    fieldNames.Add("Amount");
+                    WriteCsvLine(writer, fieldNames);
+                }
+                
+                budget.LineItems.Sort((a, b) => a.Date.CompareTo(b.Date));
+                foreach (var line in budget.LineItems)
+                {
+                    foreach (var categoryName in line.CategoryAmount.Keys)
+                    {
+                        values.Clear();
+                        values.Add(line.Date.ToShortDateString());
+                        values.Add(categoryName);
+                        values.Add(line.Description);
+                        values.Add(line.CategoryAmount[categoryName].ToString());
+                    }
+                    WriteCsvLine(writer, values);
+                }
+            }
+        }
+
+        public void WriteToCsvFile_ByCategory(PaycheckPeriodBudget budget, string filePath, bool append)
+        {
+            using (StreamWriter writer = new StreamWriter(filePath, append))
+            {
+                List<string> values = new List<string>();
+                if (!append)
+                {
+                    _fieldsAdded = 0;
+                    _categoryFieldNamesForCsv.Clear();
+                    var fieldNames = new List<string>();
+                    fieldNames.Add("Date");
+                    fieldNames.Add("Description");
+                    foreach (var categoryName in budget.CategoryOrder)
+                    {
+                        fieldNames.Add(categoryName);
+                        _categoryFieldNamesForCsv.Add(categoryName);
+                    }
+                    WriteCsvLine(writer, fieldNames);
+                    
+                    values.Add(budget.StartingDate.ToShortDateString());
+                    values.Add("Starting Budget");
+                    foreach (var categoryName in budget.CategoryOrder)
+                    {
+                        if (budget.Categories.ContainsKey(categoryName))
+                        {
+                            values.Add(budget.Categories[categoryName].StartingBalance.ToString());
+                        }
+                        else
+                        {
+                            values.Add("");
+                        }
+                    }
+                }
+
+                DateTime? maxDate = null;
+                budget.LineItems.Sort((a, b) => a.Date.CompareTo(b.Date));
+                foreach (var line in budget.LineItems)
+                {
+                    if (maxDate == null || maxDate.Value.CompareTo(line.Date) < 0)
+                    {
+                        maxDate = line.Date;
+                    }
+                    values.Clear();
+                    values.Add(line.Date.ToShortDateString());
+                    values.Add(line.Description);
+                    foreach (var categoryName in _categoryFieldNamesForCsv)
+                    {
+                        if (line.CategoryAmount.ContainsKey(categoryName))
+                        {
+                            values.Add(line.CategoryAmount[categoryName].ToString());
+                        }
+                        else
+                        {
+                            values.Add("");
+                        }
+                    }
+
+                    foreach (var categoryName in line.CategoryAmount.Keys)
+                    {
+                        if (!_categoryFieldNamesForCsv.Contains(categoryName))
+                        {
+                            _categoryFieldNamesForCsv.Add(categoryName);
+                            var categoryAmount = line.CategoryAmount[categoryName];
+                            values.Add(categoryAmount.ToString());
+                        }
+                    }
+                    WriteCsvLine(writer, values);
+                }
+
+                if (maxDate.HasValue)
+                {
+                    values.Clear();
+                    values.Add(maxDate.Value.ToShortDateString()); //TODO: get paycheck date more intellegently
+                    values.Add("Paycheck");
+                    foreach (var categoryName in _categoryFieldNamesForCsv)
+                    {
+                        if (budget.Categories.ContainsKey(categoryName))
+                        {
+                            values.Add(budget.Categories[categoryName].PaycheckBudget.ToString());
+                        }
+                        else
+                        {
+                            values.Add("");
+                        }
+                    }
+
+                    foreach (var categoryName in budget.Categories.Keys)
+                    {
+                        if (!_categoryFieldNamesForCsv.Contains(categoryName))
+                        {
+                            _categoryFieldNamesForCsv.Add(categoryName);
+                            var categoryAmount = budget.Categories[categoryName];
+                            values.Add(categoryAmount.ToString());
+                        }
+                    }
+                    WriteCsvLine(writer, values);
+                }
+            }
         }
         #endregion Public methods
+
+        #region Unorganized methods
+        private void WriteCsvLine(StreamWriter writer, List<string> values)
+        {
+            var isFirst = true;
+            foreach (var value in values)
+            {
+                if (!isFirst)
+                {
+                    writer.Write(",");
+                }
+                if (value.Contains(",") || value.Contains("\""))
+                {
+                    // surround with double-quotes
+                    writer.Write("\"");
+                    writer.Write(value.Replace("\"", "\"\"")); // duplicate double-quotes
+                    writer.Write("\"");
+                }
+                else
+                {
+                    writer.Write(value);
+                }
+                isFirst = false;
+            }
+            writer.Write(Environment.NewLine);
+        }
+        #endregion Unorganized methods
     }
 }

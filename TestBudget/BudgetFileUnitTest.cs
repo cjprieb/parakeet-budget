@@ -11,8 +11,8 @@ namespace TestBudget
         public void TestParseOfExistingFile()
         {
             var filePath = @"C:\Users\Crystal\Documents\budget\budget 2016 01 01.txt";
-            var budgetFile = new BudgetFile(filePath);
-            var budget = budgetFile.ParseFile();
+            var budgetFile = new BudgetTextParser();
+            var budget = budgetFile.ParseFile(filePath);
             
             Assert.AreEqual(budget.BalanceTotal, 31670);
             Assert.AreEqual(budget.PayPeriodTotal, 614);

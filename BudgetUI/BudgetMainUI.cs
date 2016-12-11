@@ -1,19 +1,16 @@
-﻿using Budget;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Budget;
+using NLog;
 
 namespace BudgetUI
 {
     public partial class BudgetMainUI : Form
     {
+        ILogger _Logger = LogManager.GetCurrentClassLogger();
+
         public BudgetMainUI()
         {
             InitializeComponent();
@@ -24,6 +21,11 @@ namespace BudgetUI
         private void closeFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CloseCurrentTab();
+        }
+
+        private void exportToCsvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportBudgetFilesToCsv();
         }
 
         private void generateNextPaycheckPeriodToolStripMenuItem_Click(object sender, EventArgs e)
@@ -105,9 +107,41 @@ namespace BudgetUI
             throw new NotImplementedException();
         }
 
+        private void ExportBudgetFilesToCsv()
+        {
+            string Message = "This will extract all budget files into a single csv file. Continue?";
+            DialogResult Result = MessageBox.Show(Message, "Extract Files?", MessageBoxButtons.YesNo);
+            int count = 0;
+            if ( Result == DialogResult.Yes )
+            {
+                BudgetTextParser fileParser = new BudgetTextParser();
+
+                string budgetDirectory = @"C:\Users\Crystal\Documents\Notes\budget";
+                List<PaycheckPeriodBudget> parsedBudgets = new List<PaycheckPeriodBudget>();
+                foreach (var file in Directory.EnumerateFiles(budgetDirectory, "budget ???? ?? ??.txt"))
+                {
+                    parsedBudgets.Add(fileParser.ParseFile(file));
+                    count++;
+                }
+
+                parsedBudgets.Sort((a, b) => a.StartingDate.CompareTo(b.StartingDate));
+
+                bool isFirstFile = true;
+                string csvFilePath = Path.Combine(budgetDirectory, "temp_budget_2.csv");
+                foreach ( var paycheckBudget in parsedBudgets )
+                { 
+                    var append = !isFirstFile;
+                    fileParser.WriteToCsvFile_ByCategory(paycheckBudget, csvFilePath, append);
+                    isFirstFile = false;
+                }
+            }
+            Message = $"{count} {(count == 1 ? "file" : "files")} written to csv.";
+            MessageBox.Show(Message, "Files extracted");
+        }
+
         private void Initialize()
         {
-            openFileDialog.InitialDirectory = @"C:\Users\Crystal\Documents\budget";
+            openFileDialog.InitialDirectory = @"C:\Users\Crystal\Documents\Notes\budget";
             EnableButtons(false);
         }
 
@@ -137,10 +171,8 @@ namespace BudgetUI
             }
             catch (Exception ex)
             {
-                //TODO: nlog error message
-                var caption = "Unable to load file";
-                var message = $"An error occurred while loading { selectedFile }: { ex.Message }";
-                MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var message = $"An error occurred while loading the file: { selectedFile }";
+                BudgetErrorBox.Show(message, ex);
             }
         }
 

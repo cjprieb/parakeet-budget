@@ -40,14 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountCvsParser.cs" />
     <Compile Include="BudgetFile.cs" />
     <Compile Include="BudgetParseException.cs" />
+    <Compile Include="Employers.cs" />
+    <Compile Include="Manager.cs" />
+    <Compile Include="Models\AccountFields.cs" />
+    <Compile Include="Models\WeeklyPayDate.cs" />
+    <Compile Include="Models\BiMonthlyPayDate.cs" />
     <Compile Include="Models\BudgetCategory.cs" />
     <Compile Include="Models\BudgetExtensions.cs" />
     <Compile Include="Models\BudgetLine.cs" />
     <Compile Include="Models\BudgetLineDataTable.cs" />
     <Compile Include="Models\BudgetLineRowCollection.cs" />
     <Compile Include="Models\FilterType.cs" />
+    <Compile Include="Models\IPayDateCalculator.cs" />
     <Compile Include="PaycheckPeriodBudget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
