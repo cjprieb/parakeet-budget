@@ -217,7 +217,19 @@ namespace Budget
 
                 foreach ( var category in CategoryOrder )
                 {
-                    _StartingBudget.CategoryAmount[category] = Categories[category].StartingBalance;
+                    BudgetCategory budgetCategory = null;
+                    if (!Categories.TryGetValue(category, out budgetCategory))
+                    {
+                        budgetCategory = new BudgetCategory()
+                        {
+                            Name = category,
+                            StartingBalance = 0,
+                            StartingDate = StartingDate,
+                            PaycheckBudget = 0                            
+                        };
+                        Categories[category] = budgetCategory;
+                    }
+                    _StartingBudget.CategoryAmount[category] = budgetCategory.StartingBalance;
                 }
                 return _StartingBudget;
             }
