@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Budget;
-using Budget.Models;
+using Willowcat.Budget;
+using Willowcat.Budget.Models;
 
-namespace TestBudget
+namespace Willowcat.TestBudget
 {
     public class AccountCsvParserUnitTest
     {

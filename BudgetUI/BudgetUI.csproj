@@ -7,8 +7,8 @@
     <ProjectGuid>{8A922DBB-6C65-4AAF-9F34-59B11FD1BA09}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BudgetUI</RootNamespace>
-    <AssemblyName>BudgetUI</AssemblyName>
+    <RootNamespace>Willowcat.BudgetUi</RootNamespace>
+    <AssemblyName>Willowcat.BudgetUi</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

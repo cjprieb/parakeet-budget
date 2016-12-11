@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Budget.Models;
+using Willowcat.Budget.Models;
 
-namespace Budget
+namespace Willowcat.Budget
 {
     public class AccountCsvParser
     {

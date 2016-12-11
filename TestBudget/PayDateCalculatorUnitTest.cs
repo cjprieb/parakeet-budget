@@ -1,8 +1,8 @@
 ﻿using System;
-using Budget.Models;
+using Willowcat.Budget.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TestBudget
+namespace Willowcat.TestBudget
 {
     [TestClass]
     public class PayDateCalculatorUnitTest

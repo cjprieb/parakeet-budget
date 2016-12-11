@@ -1,4 +1,4 @@
-﻿namespace BudgetConsole
+﻿namespace Willowcat.BudgetConsole
 {
     //public class AccountTxtParser
     //{

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BudgetConsole.Properties {
+namespace Willowcat.BudgetConsole.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

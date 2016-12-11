@@ -3,11 +3,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Budget;
-using Budget.Models;
-using BudgetConsole.Common;
+using Willowcat.Budget;
+using Willowcat.Budget.Models;
+using Willowcat.Common;
 
-namespace BudgetConsole
+namespace Willowcat.BudgetConsole
 { 
     public enum RepeatType
     {

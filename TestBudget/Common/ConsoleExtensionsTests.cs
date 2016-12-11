@@ -1,12 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BudgetConsole.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Willowcat.BudgetConsole;
+using Willowcat.Common;
 
-namespace BudgetConsole.Common.Tests
+namespace Willowcat.BudgetConsole.Common.Tests
 {
     [TestClass]
     public class ConsoleExtensionsTests

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BudgetConsole
+namespace Willowcat.BudgetConsole
 {
     public class ConsoleCommand
     {

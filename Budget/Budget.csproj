@@ -7,8 +7,8 @@
     <ProjectGuid>{00C9D14A-C6E5-49C3-8BF1-5B2451EB8CF4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Budget</RootNamespace>
-    <AssemblyName>Budget</AssemblyName>
+    <RootNamespace>Willowcat.Budget</RootNamespace>
+    <AssemblyName>Willowcat.Budget</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

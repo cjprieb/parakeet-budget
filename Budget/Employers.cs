@@ -1,6 +1,6 @@
-﻿using Budget.Models;
+﻿using Willowcat.Budget.Models;
 
-namespace Budget
+namespace Willowcat.Budget
 {
     public class Employers
     {

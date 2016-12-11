@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace BudgetConsole.Common
+namespace Willowcat.Common
 {
     //TODO: move to common library
     public class ConsoleArguments : List<ConsoleArgument>

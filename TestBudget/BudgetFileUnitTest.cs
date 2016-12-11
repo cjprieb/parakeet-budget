@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Budget;
+using Willowcat.Budget;
 
-namespace TestBudget
+namespace Willowcat.TestBudget
 {
     [TestClass]
     public class BudgetFileUnitTest

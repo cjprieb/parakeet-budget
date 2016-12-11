@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace BudgetUI
+namespace Willowcat.BudgetUi
 {
     static class Program
     {

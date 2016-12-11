@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Budget.Models
+namespace Willowcat.Budget.Models
 {
     public interface IPayDateCalculator
     {

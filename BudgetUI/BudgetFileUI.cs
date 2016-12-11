@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
-using Budget;
-using Budget.Models;
+using Willowcat.Budget;
+using Willowcat.Budget.Models;
 using System.Linq;
 
-namespace BudgetUI
+namespace Willowcat.BudgetUi
 {
     public partial class BudgetFileUI : UserControl
     {

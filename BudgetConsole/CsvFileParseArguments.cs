@@ -1,6 +1,6 @@
-﻿using BudgetConsole.Common;
+﻿using Willowcat.Common;
 
-namespace BudgetConsole
+namespace Willowcat.BudgetConsole
 {
     public class CsvFileParseArguments
     {

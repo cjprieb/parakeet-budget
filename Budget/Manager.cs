@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Budget
+namespace Willowcat.Budget
 {
     public class BudgetManager
     {

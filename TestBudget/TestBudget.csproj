@@ -6,8 +6,8 @@
     <ProjectGuid>{971D32BD-B399-4D9A-A88A-968B2E2DF37C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestBudget</RootNamespace>
-    <AssemblyName>TestBudget</AssemblyName>
+    <RootNamespace>Willowcat.TestBudget</RootNamespace>
+    <AssemblyName>Willowcat.TestBudget</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

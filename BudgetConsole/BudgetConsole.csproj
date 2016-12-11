@@ -7,8 +7,8 @@
     <ProjectGuid>{53D38CF7-0BA9-4DC1-8012-4CF16C153214}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BudgetConsole</RootNamespace>
-    <AssemblyName>BudgetConsole</AssemblyName>
+    <RootNamespace>Willowcat.BudgetConsole</RootNamespace>
+    <AssemblyName>Willowcat.BudgetConsole</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

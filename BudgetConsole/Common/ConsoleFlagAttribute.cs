@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BudgetConsole.Common
+namespace Willowcat.Common
 {
     public class ConsoleFlagAttribute : Attribute
     {

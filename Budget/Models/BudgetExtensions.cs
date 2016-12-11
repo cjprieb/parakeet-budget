@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Budget.Models
+namespace Willowcat.Budget.Models
 {
     public static class BudgetExtensions
     {

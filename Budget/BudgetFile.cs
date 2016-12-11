@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using Budget.Models;
+using Willowcat.Budget.Models;
 
-namespace Budget
+namespace Willowcat.Budget
 {
     public class BudgetTextParser
     {

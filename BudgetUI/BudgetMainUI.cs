@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Budget;
+using Willowcat.Budget;
 using NLog;
 
-namespace BudgetUI
+namespace Willowcat.BudgetUi
 {
     public partial class BudgetMainUI : Form
     {

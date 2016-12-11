@@ -1,4 +1,4 @@
-﻿namespace BudgetUI
+﻿namespace Willowcat.BudgetUi
 {
     partial class BudgetMainUI
     {

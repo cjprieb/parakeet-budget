@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using NLog;
 
-namespace BudgetUI
+namespace Willowcat.BudgetUi
 {
     public class BudgetErrorBox
     {

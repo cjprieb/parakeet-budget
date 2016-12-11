@@ -1,4 +1,4 @@
-﻿namespace Budget.Models
+﻿namespace Willowcat.Budget.Models
 {
     public enum FilterType
     {
